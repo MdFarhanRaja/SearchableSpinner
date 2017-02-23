@@ -1,6 +1,9 @@
 # SearchableSpinner
 Fully Searchable Spiner Dialog
 
+![Screen Shot](https://cloud.githubusercontent.com/assets/18304656/23259376/d470d6aa-f9f2-11e6-98f1-679f1e32af8f.gif)
+
+
 Step 1. Add the JitPack repository to your build file
 
 	allprojects {
