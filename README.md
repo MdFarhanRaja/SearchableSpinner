@@ -18,8 +18,7 @@ Step 2. Add the dependency
   
 Step 3. Inside JAVA
 
-public class MainActivity extends AppCompatActivity {
-
+    public class MainActivity extends AppCompatActivity {
     ArrayList<String> items=new ArrayList<>();
     SpinnerDialog spinnerDialog;
     @Override
@@ -57,6 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-}
+    }
 
   
