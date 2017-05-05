@@ -25,11 +25,21 @@ public class SpinnerDialog {
     OnSpinerItemClick onSpinerItemClick;
     AlertDialog alertDialog;
     int pos;
+    int style;
+
+
 
     public SpinnerDialog(Activity activity,ArrayList<String> items,String dialogTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle=dialogTitle;
+    }
+
+    public SpinnerDialog(Activity activity,ArrayList<String> items,String dialogTitle,int style) {
+        this.items = items;
+        this.context = activity;
+        this.dTitle=dialogTitle;
+        this.style=style;
     }
 
     public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
@@ -48,7 +58,7 @@ public class SpinnerDialog {
         listView.setAdapter(adapter);
         adb.setView(v);
         alertDialog = adb.create();
-        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations_SmileWindow;
+        alertDialog.getWindow().getAttributes().windowAnimations = style;//R.style.DialogAnimations_SmileWindow;
         alertDialog.setCancelable(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
