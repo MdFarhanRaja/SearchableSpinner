@@ -15,7 +15,7 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.MdFarhanRaja:SearchableSpinner:1.0'
+	        compile 'com.github.MdFarhanRaja:SearchableSpinner:1.2'
 	}
   
 Step 3. Inside JAVA
@@ -43,7 +43,10 @@ Step 3. Inside JAVA
         items.add("Kanpur");
 
 
-        spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City");
+        spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City");// With No Animation
+	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);// With Animation
+	
+	
         spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
             public void onClick(String item, int position) {
@@ -59,5 +62,13 @@ Step 3. Inside JAVA
         });
     }
     }
+    
+Step 4. Add custom style in your style.xml
+
+	<style name="DialogAnimations" />
+    	<style name="DialogAnimations.SmileWindow">
+        <item name="@android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="@android:windowExitAnimation">@anim/slide_out_top</item>
+    	</style>
 
   
