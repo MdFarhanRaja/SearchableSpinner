@@ -44,7 +44,7 @@ Step 3. Inside JAVA
 
 
         spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City");// With No Animation
-	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);// With Animation
+	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);// With 	Animation
 	
 	
         spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
@@ -63,7 +63,7 @@ Step 3. Inside JAVA
     }
     }
     
-Step 4. Add custom style in your style.xml
+Step 4. Add custom style in your styles.xml
 
 	<style name="DialogAnimations" />
     	<style name="DialogAnimations.SmileWindow">
