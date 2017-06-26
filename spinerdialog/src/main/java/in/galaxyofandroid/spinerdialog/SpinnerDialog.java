@@ -15,25 +15,27 @@ import java.util.ArrayList;
 
 public class SpinnerDialog {
 
-    private ArrayList<String> items;
-    private Activity context;
-    private String dTitle;
+    private final Activity context;
+    private final ArrayList<String> items;
+    private final String dTitle;
+    private final int windowAnimationsStyle;
+
     private OnSpinerItemClick onSpinerItemClick;
     private AlertDialog alertDialog;
     private int pos;
-    private int style;
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
+        this.windowAnimationsStyle = 0;
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int windowAnimationsStyle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
-        this.style = style;
+        this.windowAnimationsStyle = windowAnimationsStyle;
     }
 
     public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
@@ -52,7 +54,7 @@ public class SpinnerDialog {
         listView.setAdapter(adapter);
         adb.setView(v);
         alertDialog = adb.create();
-        alertDialog.getWindow().getAttributes().windowAnimations = style;//R.style.DialogAnimations_SmileWindow;
+        alertDialog.getWindow().getAttributes().windowAnimations = windowAnimationsStyle;
         alertDialog.setCancelable(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
