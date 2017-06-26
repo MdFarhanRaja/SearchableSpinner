@@ -20,7 +20,7 @@ public class SpinnerDialog {
     private final String dTitle;
     private final int windowAnimationsStyle;
 
-    private OnSpinerItemClick onSpinerItemClick;
+    private OnSpinnerItemClickListener onSpinnerItemClickListener;
     private AlertDialog alertDialog;
     private int pos;
 
@@ -38,15 +38,15 @@ public class SpinnerDialog {
         this.windowAnimationsStyle = windowAnimationsStyle;
     }
 
-    public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
-        this.onSpinerItemClick = onSpinerItemClick1;
+    public void bindOnSpinnerListener(OnSpinnerItemClickListener listener) {
+        this.onSpinnerItemClickListener = listener;
     }
 
-    public void showSpinerDialog() {
+    public void showSpinnerDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(context);
         View v = context.getLayoutInflater().inflate(R.layout.dialog_layout, null);
         TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
-        TextView title = (TextView) v.findViewById(R.id.spinerTitle);
+        TextView title = (TextView) v.findViewById(R.id.spinnerTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
         final EditText searchBox = (EditText) v.findViewById(R.id.searchBox);
@@ -66,7 +66,7 @@ public class SpinnerDialog {
                         pos = j;
                     }
                 }
-                onSpinerItemClick.onClick(t.getText().toString(), pos);
+                onSpinnerItemClickListener.onClick(t.getText().toString(), pos);
                 alertDialog.dismiss();
             }
         });

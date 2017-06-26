@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
+import in.galaxyofandroid.spinerdialog.OnSpinnerItemClickListener;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class MainActivity extends AppCompatActivity
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
 
         spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);
 
-        spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick()
+        spinnerDialog.bindOnSpinnerListener(new OnSpinnerItemClickListener()
         {
             @Override
             public void onClick(String item, int position)
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                spinnerDialog.showSpinerDialog();
+                spinnerDialog.showSpinnerDialog();
             }
         });
     }
