@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new SpinnerDialogItem("LU", "Lucknow"));
         items.add(new SpinnerDialogItem("KA", "Kanpur"));
 
-        spinnerDialog = new SpinnerDialog(MainActivity.this, items, "Select or Search City", R.style.DialogAnimations_SmileWindow);
+        spinnerDialog = new SpinnerDialog(MainActivity.this, items, "Select or Search City", R.style.SpinnerDialogSlideFromBottomAnimation);
 
         spinnerDialog.bindOnSpinnerListener(new OnSpinnerItemClickListener() {
             @Override

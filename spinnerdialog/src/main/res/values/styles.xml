@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="DialogAnimations" />
-    <style name="DialogAnimations.SmileWindow">
+    <style name="SpinnerDialogSlideFromBottomAnimation">
         <item name="@android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="@android:windowExitAnimation">@anim/slide_out_top</item>
     </style>
