@@ -1,5 +1,5 @@
 # SearchableSpinner
-Fully Searchable Spiner Dialog
+Fully Searchable Spinner Dialog
 
 ![Screen Shot](https://cloud.githubusercontent.com/assets/18304656/23259376/d470d6aa-f9f2-11e6-98f1-679f1e32af8f.gif)
 
@@ -47,7 +47,7 @@ Step 3. Inside JAVA
 	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);// With 	Animation
 	
 	
-        spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
+        spinnerDialog.bindOnSpinnerListener(new OnSpinnerItemClickListener() {
             @Override
             public void onClick(String item, int position) {
                 Toast.makeText(MainActivity.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
@@ -57,7 +57,7 @@ Step 3. Inside JAVA
         findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinnerDialog.showSpinerDialog();
+                spinnerDialog.showSpinnerDialog();
             }
         });
     }
