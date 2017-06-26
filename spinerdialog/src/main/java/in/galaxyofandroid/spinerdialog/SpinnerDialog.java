@@ -2,7 +2,6 @@ package in.galaxyofandroid.spinerdialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,32 +13,27 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Md Farhan Raja on 2/23/2017.
- */
-
 public class SpinnerDialog {
-    ArrayList<String> items;
-    Activity context;
-    String dTitle;
-    OnSpinerItemClick onSpinerItemClick;
-    AlertDialog alertDialog;
-    int pos;
-    int style;
 
+    private ArrayList<String> items;
+    private Activity context;
+    private String dTitle;
+    private OnSpinerItemClick onSpinerItemClick;
+    private AlertDialog alertDialog;
+    private int pos;
+    private int style;
 
-
-    public SpinnerDialog(Activity activity,ArrayList<String> items,String dialogTitle) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
         this.context = activity;
-        this.dTitle=dialogTitle;
+        this.dTitle = dialogTitle;
     }
 
-    public SpinnerDialog(Activity activity,ArrayList<String> items,String dialogTitle,int style) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
         this.items = items;
         this.context = activity;
-        this.dTitle=dialogTitle;
-        this.style=style;
+        this.dTitle = dialogTitle;
+        this.style = style;
     }
 
     public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
@@ -63,17 +57,14 @@ public class SpinnerDialog {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                TextView t=(TextView)view.findViewById(R.id.text1);
-                for(int j=0;j<items.size();j++)
-                {
-                    if(t.getText().toString().equalsIgnoreCase(items.get(j).toString()))
-                    {
-                        pos=j;
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView t = (TextView) view.findViewById(R.id.text1);
+                for (int j = 0; j < items.size(); j++) {
+                    if (t.getText().toString().equalsIgnoreCase(items.get(j).toString())) {
+                        pos = j;
                     }
                 }
-                onSpinerItemClick.onClick(t.getText().toString(),pos);
+                onSpinerItemClick.onClick(t.getText().toString(), pos);
                 alertDialog.dismiss();
             }
         });
@@ -103,5 +94,4 @@ public class SpinnerDialog {
         });
         alertDialog.show();
     }
-
 }
