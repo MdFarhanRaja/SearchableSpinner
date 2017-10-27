@@ -28,18 +28,17 @@ public class SpinnerDialog {
     int style;
 
 
-
-    public SpinnerDialog(Activity activity,ArrayList<String> items,String dialogTitle) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
         this.context = activity;
-        this.dTitle=dialogTitle;
+        this.dTitle = dialogTitle;
     }
 
-    public SpinnerDialog(Activity activity,ArrayList<String> items,String dialogTitle,int style) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
         this.items = items;
         this.context = activity;
-        this.dTitle=dialogTitle;
-        this.style=style;
+        this.dTitle = dialogTitle;
+        this.style = style;
     }
 
     public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
@@ -63,17 +62,14 @@ public class SpinnerDialog {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                TextView t=(TextView)view.findViewById(R.id.text1);
-                for(int j=0;j<items.size();j++)
-                {
-                    if(t.getText().toString().equalsIgnoreCase(items.get(j).toString()))
-                    {
-                        pos=j;
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView t = (TextView) view.findViewById(R.id.text1);
+                for (int j = 0; j < items.size(); j++) {
+                    if (t.getText().toString().equalsIgnoreCase(items.get(j).toString())) {
+                        pos = j;
                     }
                 }
-                onSpinerItemClick.onClick(t.getText().toString(),pos);
+                onSpinerItemClick.onClick(t.getText().toString(), pos);
                 alertDialog.dismiss();
             }
         });

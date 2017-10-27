@@ -11,17 +11,16 @@ import java.util.ArrayList;
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
-public class MainActivity extends AppCompatActivity
-{
-    ArrayList<String> items=new ArrayList<>();
+public class MainActivity extends AppCompatActivity {
+    ArrayList<String> items = new ArrayList<>();
     SpinnerDialog spinnerDialog;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView selectedItems=(TextView)findViewById(R.id.txt);
+        final TextView selectedItems = (TextView) findViewById(R.id.txt);
 
 
         items.add("Mumbai");
@@ -37,29 +36,23 @@ public class MainActivity extends AppCompatActivity
         items.add("Lucknow");
         items.add("Kanpur");
 
-        spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);
+        spinnerDialog = new SpinnerDialog(MainActivity.this, items, "Select or Search City", R.style.DialogAnimations_SmileWindow);
 
-        spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick()
-        {
+        spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
-            public void onClick(String item, int position)
-            {
-                Toast.makeText(MainActivity.this, item + "  " + position+"", Toast.LENGTH_SHORT).show();
+            public void onClick(String item, int position) {
+                Toast.makeText(MainActivity.this, item + "  " + position + "", Toast.LENGTH_SHORT).show();
                 selectedItems.setText(item + " Position: " + position);
             }
         });
 
-        findViewById(R.id.show).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 spinnerDialog.showSpinerDialog();
             }
         });
     }
-
-
 
 
 }
