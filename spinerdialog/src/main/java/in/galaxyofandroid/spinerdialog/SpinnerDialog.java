@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class SpinnerDialog {
     ArrayList<String> items;
     Activity context;
-    String dTitle;
+    String dTitle,closeTitle="Close";
     OnSpinerItemClick onSpinerItemClick;
     AlertDialog alertDialog;
     int pos;
@@ -34,11 +34,26 @@ public class SpinnerDialog {
         this.dTitle = dialogTitle;
     }
 
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle,String closeTitle) {
+        this.items = items;
+        this.context = activity;
+        this.dTitle = dialogTitle;
+        this.closeTitle=closeTitle;
+    }
+
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
         this.style = style;
+    }
+
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style,String closeTitle) {
+        this.items = items;
+        this.context = activity;
+        this.dTitle = dialogTitle;
+        this.style = style;
+        this.closeTitle=closeTitle;
     }
 
     public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
@@ -50,6 +65,7 @@ public class SpinnerDialog {
         View v = context.getLayoutInflater().inflate(R.layout.dialog_layout, null);
         TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
         TextView title = (TextView) v.findViewById(R.id.spinerTitle);
+        rippleViewClose.setText(closeTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
         final EditText searchBox = (EditText) v.findViewById(R.id.searchBox);
