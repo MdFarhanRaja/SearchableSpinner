@@ -15,7 +15,7 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.MdFarhanRaja:SearchableSpinner:1.7'
+	        compile 'com.github.MdFarhanRaja:SearchableSpinner:1.8'
 	}
   
 Step 3. Inside JAVA
@@ -43,8 +43,8 @@ Step 3. Inside JAVA
         items.add("Kanpur");
 
 
-        spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City");// With No Animation
-	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow);// With 	Animation
+        spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City","Close Button Text");// With No Animation
+	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow,"Close Button Text");// With 	Animation
 	
 	
         spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
