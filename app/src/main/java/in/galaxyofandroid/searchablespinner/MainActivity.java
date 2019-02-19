@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         spinnerDialog = new SpinnerDialog(MainActivity.this, items,
                 "Select or Search City");
 
+        spinnerDialog.setCancellable(true);
+        spinnerDialog.setShowKeyboard(false);
+
         spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
             public void onClick(String item, int position) {
@@ -56,4 +59,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        spinnerDialog.closeSpinerDialog();
+    }
 }

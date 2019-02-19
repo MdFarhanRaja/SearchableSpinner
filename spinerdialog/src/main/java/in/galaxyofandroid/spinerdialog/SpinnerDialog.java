@@ -6,9 +6,11 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,7 +28,8 @@ public class SpinnerDialog {
     AlertDialog alertDialog;
     int pos;
     int style;
-
+    boolean cancellable=false;
+    boolean showKeyboard=false;
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
@@ -69,12 +72,14 @@ public class SpinnerDialog {
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
         final EditText searchBox = (EditText) v.findViewById(R.id.searchBox);
+        if(isShowKeyboard()){
+            showKeyboard(searchBox);
+        }
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_view, items);
         listView.setAdapter(adapter);
         adb.setView(v);
         alertDialog = adb.create();
         alertDialog.getWindow().getAttributes().windowAnimations = style;//R.style.DialogAnimations_SmileWindow;
-        alertDialog.setCancelable(false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,7 +91,7 @@ public class SpinnerDialog {
                     }
                 }
                 onSpinerItemClick.onClick(t.getText().toString(), pos);
-                alertDialog.dismiss();
+                closeSpinerDialog();
             }
         });
 
@@ -110,10 +115,53 @@ public class SpinnerDialog {
         rippleViewClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                closeSpinerDialog();
             }
         });
+        alertDialog.setCancelable(isCancellable());
+        alertDialog.setCanceledOnTouchOutside(isCancellable());
         alertDialog.show();
     }
 
+    public void closeSpinerDialog() {
+        hideKeyboard();
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+    }
+
+    private void hideKeyboard(){
+        try {
+            InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+        }
+    }
+
+    private void showKeyboard(final EditText ettext){
+        ettext.requestFocus();
+        ettext.postDelayed(new Runnable(){
+                               @Override public void run(){
+                                   InputMethodManager keyboard=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                   keyboard.showSoftInput(ettext,0);
+                               }
+                           }
+                ,200);
+    }
+
+    private boolean isCancellable() {
+        return cancellable;
+    }
+
+    public void setCancellable(boolean cancellable) {
+        this.cancellable = cancellable;
+    }
+
+    private boolean isShowKeyboard() {
+        return showKeyboard;
+    }
+
+    public void setShowKeyboard(boolean showKeyboard) {
+        this.showKeyboard = showKeyboard;
+    }
 }
