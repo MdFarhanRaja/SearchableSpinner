@@ -46,6 +46,9 @@ Step 3. Inside JAVA
         spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City","Close Button Text");// With No Animation
 	spinnerDialog=new SpinnerDialog(MainActivity.this,items,"Select or Search City",R.style.DialogAnimations_SmileWindow,"Close Button Text");// With 	Animation
 	
+	spinnerDialog.setCancellable(true); // for cancellable
+	spinnerDialog.setShowKeyboard(false);// for open keyboard by default
+	
 	
         spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
