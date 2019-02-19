@@ -15,7 +15,7 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.MdFarhanRaja:SearchableSpinner:1.9'
+	        compile 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
 	}
   
 Step 3. Inside JAVA
