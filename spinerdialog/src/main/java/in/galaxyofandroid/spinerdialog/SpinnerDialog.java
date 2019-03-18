@@ -8,9 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +28,8 @@ public class SpinnerDialog {
     int style;
     boolean cancellable=false;
     boolean showKeyboard=false;
+    boolean useContainsFilter=false;
+
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
@@ -75,7 +75,8 @@ public class SpinnerDialog {
         if(isShowKeyboard()){
             showKeyboard(searchBox);
         }
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_view, items);
+//        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_view, items);
+        final ArrayAdapterWithContainsFilter<String> adapter = new ArrayAdapterWithContainsFilter<String>(context, R.layout.items_view, items);
         listView.setAdapter(adapter);
         adb.setView(v);
         alertDialog = adb.create();
@@ -108,7 +109,11 @@ public class SpinnerDialog {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                adapter.getFilter().filter(searchBox.getText().toString());
+                if(isUseContainsFilter()){
+                    adapter.getContainsFilter(searchBox.getText().toString());
+                } else {
+                    adapter.getFilter().filter(searchBox.getText().toString());
+                }
             }
         });
 
@@ -161,7 +166,17 @@ public class SpinnerDialog {
         return showKeyboard;
     }
 
+    private boolean isUseContainsFilter() {
+        return useContainsFilter;
+    }
+
+
     public void setShowKeyboard(boolean showKeyboard) {
         this.showKeyboard = showKeyboard;
     }
+
+    public void setUseContainsFilter(boolean useContainsFilter) {
+        this.useContainsFilter = useContainsFilter;
+    }
+
 }
