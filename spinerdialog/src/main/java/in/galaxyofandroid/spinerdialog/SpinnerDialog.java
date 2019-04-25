@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by Md Farhan Raja on 2/23/2017.
@@ -110,9 +112,9 @@ public class SpinnerDialog {
             @Override
             public void afterTextChanged(Editable editable) {
                 if(isUseContainsFilter()){
-                    adapter.getContainsFilter(searchBox.getText().toString());
+                    adapter.getContainsFilter(deAccent(searchBox.getText().toString()));
                 } else {
-                    adapter.getFilter().filter(searchBox.getText().toString());
+                    adapter.getFilter().filter(deAccent(searchBox.getText().toString()));
                 }
             }
         });
@@ -170,6 +172,11 @@ public class SpinnerDialog {
         return useContainsFilter;
     }
 
+    private String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
 
     public void setShowKeyboard(boolean showKeyboard) {
         this.showKeyboard = showKeyboard;
