@@ -3,12 +3,16 @@ package in.galaxyofandroid.spinerdialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,27 +25,37 @@ import java.util.ArrayList;
 public class SpinnerDialog {
     ArrayList<String> items;
     Activity context;
-    String dTitle,closeTitle="Close";
+    String dTitle, closeTitle = "Close";
     OnSpinerItemClick onSpinerItemClick;
     AlertDialog alertDialog;
     int pos;
     int style;
-    boolean cancellable=false;
-    boolean showKeyboard=false;
-    boolean useContainsFilter=false;
+    boolean cancellable = false;
+    boolean showKeyboard = false;
+    boolean useContainsFilter = false;
+    int titleColor,searchIconColor,searchTextColor,itemColor,closeColor;
 
+    private void initColor(Context context){
+        this.titleColor=context.getResources().getColor(R.color.colorBlack);
+        this.searchIconColor=context.getResources().getColor(R.color.colorBlack);
+        this.searchTextColor=context.getResources().getColor(R.color.colorBlack);
+        this.itemColor=context.getResources().getColor(R.color.colorBlack);
+        this.closeColor=context.getResources().getColor(R.color.colorBlack);
+    }
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
+        initColor(context);
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle,String closeTitle) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, String closeTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
-        this.closeTitle=closeTitle;
+        this.closeTitle = closeTitle;
+        initColor(context);
     }
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
@@ -49,14 +63,16 @@ public class SpinnerDialog {
         this.context = activity;
         this.dTitle = dialogTitle;
         this.style = style;
+        initColor(context);
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style,String closeTitle) {
+    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style, String closeTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
         this.style = style;
-        this.closeTitle=closeTitle;
+        this.closeTitle = closeTitle;
+        initColor(context);
     }
 
     public void bindOnSpinerListener(OnSpinerItemClick onSpinerItemClick1) {
@@ -68,15 +84,32 @@ public class SpinnerDialog {
         View v = context.getLayoutInflater().inflate(R.layout.dialog_layout, null);
         TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
         TextView title = (TextView) v.findViewById(R.id.spinerTitle);
+        ImageView searchIcon=(ImageView) v.findViewById(R.id.searchIcon);
         rippleViewClose.setText(closeTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
         final EditText searchBox = (EditText) v.findViewById(R.id.searchBox);
-        if(isShowKeyboard()){
+        if (isShowKeyboard()) {
             showKeyboard(searchBox);
         }
+
+        title.setTextColor(titleColor);
+        searchBox.setTextColor(searchTextColor);
+        rippleViewClose.setTextColor(closeColor);
+        searchIcon.setColorFilter(searchIconColor);
+
+
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_view, items);
-        final ArrayAdapterWithContainsFilter<String> adapter = new ArrayAdapterWithContainsFilter<String>(context, R.layout.items_view, items);
+        final ArrayAdapterWithContainsFilter<String> adapter = new ArrayAdapterWithContainsFilter<String>(context, R.layout.items_view, items) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1=view.findViewById(R.id.text1);
+                text1.setTextColor(itemColor);
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
         adb.setView(v);
         alertDialog = adb.create();
@@ -109,7 +142,7 @@ public class SpinnerDialog {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(isUseContainsFilter()){
+                if (isUseContainsFilter()) {
                     adapter.getContainsFilter(searchBox.getText().toString());
                 } else {
                     adapter.getFilter().filter(searchBox.getText().toString());
@@ -135,7 +168,7 @@ public class SpinnerDialog {
         }
     }
 
-    private void hideKeyboard(){
+    private void hideKeyboard() {
         try {
             InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -143,15 +176,16 @@ public class SpinnerDialog {
         }
     }
 
-    private void showKeyboard(final EditText ettext){
+    private void showKeyboard(final EditText ettext) {
         ettext.requestFocus();
-        ettext.postDelayed(new Runnable(){
-                               @Override public void run(){
-                                   InputMethodManager keyboard=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                   keyboard.showSoftInput(ettext,0);
+        ettext.postDelayed(new Runnable() {
+                               @Override
+                               public void run() {
+                                   InputMethodManager keyboard = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                   keyboard.showSoftInput(ettext, 0);
                                }
                            }
-                ,200);
+                , 200);
     }
 
     private boolean isCancellable() {
@@ -179,4 +213,23 @@ public class SpinnerDialog {
         this.useContainsFilter = useContainsFilter;
     }
 
+    public void setTitleColor(int titleColor) {
+        this.titleColor = titleColor;
+    }
+
+    public void setSearchIconColor(int searchIconColor) {
+        this.searchIconColor = searchIconColor;
+    }
+
+    public void setSearchTextColor(int searchTextColor) {
+        this.searchTextColor = searchTextColor;
+    }
+
+    public void setItemColor(int itemColor) {
+        this.itemColor = itemColor;
+    }
+
+    public void setCloseColor(int closeColor) {
+        this.closeColor = closeColor;
+    }
 }

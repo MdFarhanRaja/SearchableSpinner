@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         spinnerDialog = new SpinnerDialog(MainActivity.this, items,
                 "Select or Search City");
 
+        spinnerDialog.setCloseColor(getResources().getColor(R.color.colorAccent));
+        spinnerDialog.setSearchIconColor(getResources().getColor(R.color.colorAccent));
+        spinnerDialog.setSearchTextColor(getResources().getColor(R.color.colorAccent));
+        spinnerDialog.setItemColor(getResources().getColor(R.color.colorAccent));
+
         spinnerDialog.setCancellable(true);
         spinnerDialog.setShowKeyboard(false);
 
@@ -58,10 +63,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        spinnerDialog.closeSpinerDialog();
-    }
 }

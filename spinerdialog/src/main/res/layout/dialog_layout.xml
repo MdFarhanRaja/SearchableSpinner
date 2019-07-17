@@ -44,6 +44,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/viewLine"
             android:layout_width="wrap_content"
             android:layout_height="0.1dp"
             android:background="#d1d1d1" />
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:divider="#d1d1d1"
-            android:dividerHeight="0.1dp"></ListView>
+            android:dividerHeight="0.1dp"/>
 
         <TextView
             android:clickable="true"
