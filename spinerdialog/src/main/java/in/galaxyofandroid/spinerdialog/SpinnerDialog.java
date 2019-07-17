@@ -3,6 +3,7 @@ package in.galaxyofandroid.spinerdialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -33,7 +34,7 @@ public class SpinnerDialog {
     boolean cancellable = false;
     boolean showKeyboard = false;
     boolean useContainsFilter = false;
-    int titleColor,searchIconColor,searchTextColor,itemColor,closeColor;
+    int titleColor,searchIconColor,searchTextColor,itemColor,itemDividerColor,closeColor;
 
     private void initColor(Context context){
         this.titleColor=context.getResources().getColor(R.color.colorBlack);
@@ -41,6 +42,7 @@ public class SpinnerDialog {
         this.searchTextColor=context.getResources().getColor(R.color.colorBlack);
         this.itemColor=context.getResources().getColor(R.color.colorBlack);
         this.closeColor=context.getResources().getColor(R.color.colorBlack);
+        this.itemDividerColor=context.getResources().getColor(R.color.colorLightGray);
     }
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
@@ -88,6 +90,11 @@ public class SpinnerDialog {
         rippleViewClose.setText(closeTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
+
+        ColorDrawable sage = new ColorDrawable(itemDividerColor);
+        listView.setDivider(sage);
+        listView.setDividerHeight(1);
+
         final EditText searchBox = (EditText) v.findViewById(R.id.searchBox);
         if (isShowKeyboard()) {
             showKeyboard(searchBox);
@@ -231,5 +238,9 @@ public class SpinnerDialog {
 
     public void setCloseColor(int closeColor) {
         this.closeColor = closeColor;
+    }
+
+    public void setItemDividerColor(int itemDividerColor) {
+        this.itemDividerColor = itemDividerColor;
     }
 }

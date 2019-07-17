@@ -39,10 +39,12 @@ public class MainActivity extends AppCompatActivity {
         spinnerDialog = new SpinnerDialog(MainActivity.this, items,
                 "Select or Search City");
 
-        spinnerDialog.setCloseColor(getResources().getColor(R.color.colorAccent));
+        spinnerDialog.setTitleColor(getResources().getColor(R.color.colorAccent));
         spinnerDialog.setSearchIconColor(getResources().getColor(R.color.colorAccent));
         spinnerDialog.setSearchTextColor(getResources().getColor(R.color.colorAccent));
         spinnerDialog.setItemColor(getResources().getColor(R.color.colorAccent));
+        spinnerDialog.setItemDividerColor(getResources().getColor(R.color.colorAccent));
+        spinnerDialog.setCloseColor(getResources().getColor(R.color.colorAccent));
 
         spinnerDialog.setCancellable(true);
         spinnerDialog.setShowKeyboard(false);
