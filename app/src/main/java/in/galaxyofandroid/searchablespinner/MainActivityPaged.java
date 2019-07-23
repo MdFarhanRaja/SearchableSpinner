@@ -83,7 +83,7 @@ public class MainActivityPaged extends AppCompatActivity {
         mSpinnerDialogPaged.bindOnAfterTextChanged(new OnAfterTextChangedListener() {
             @Override
             public void onAfterTextChanged(String term) {
-
+                // get the search term
             }
         });
 
