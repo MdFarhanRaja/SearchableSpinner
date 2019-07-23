@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Ângelo Robson on 22/07/2019.
@@ -182,9 +183,15 @@ public class SpinnerDialogPaged {
         alertDialog.show();
     }
 
-    public void addMoreItemns(ArrayList<String> items) {
-        this.items.addAll(items);
-        adapter.notifyDataSetChanged();
+    public void addMoreItems(ArrayList<String> items) {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.addAll(items);
+        this.items.clear();
+        this.items.addAll(hashSet);
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void setVisibleThreshold(int visibleThreshold) {

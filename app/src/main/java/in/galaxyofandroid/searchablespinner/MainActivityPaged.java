@@ -12,42 +12,22 @@ import in.galaxyofandroid.spinerdialog.OnAfterTextChangedListener;
 import in.galaxyofandroid.spinerdialog.OnLoadMore;
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialogPaged;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MainActivityPaged extends AppCompatActivity {
 
-    ArrayList<String> items = new ArrayList<>();
+    ArrayList<String> mItems = new ArrayList<>();
     SpinnerDialogPaged mSpinnerDialogPaged;
+    TextView mSelectedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSelectedItems = findViewById(R.id.txt);
 
-        final TextView selectedItems = (TextView) findViewById(R.id.txt);
-
-
-        items.add("Mumbai");
-        items.add("Delhi");
-        items.add("Bengaluru");
-        items.add("Hyderabad");
-        items.add("Ahmedabad");
-        items.add("Chennai");
-        items.add("Kolkata");
-        items.add("Surat");
-        items.add("Pune");
-        items.add("Jaipur");
-        items.add("Lucknow");
-        items.add("Maceió");
-        items.add("Recife");
-        items.add("Pernambuco");
-        items.add("Macapá");
-        items.add("Fortaleza");
-        items.add("Tocantins");
-        items.add("Atalaia");
-        items.add("Satuba");
-        items.add("Pilar");
-
-        mSpinnerDialogPaged = new SpinnerDialogPaged(MainActivityPaged.this, items,
+        mSpinnerDialogPaged = new SpinnerDialogPaged(MainActivityPaged.this, mItems,
                 "Select");
 
         mSpinnerDialogPaged.setTitleColor(getResources().getColor(R.color.colorAccent));
@@ -60,16 +40,18 @@ public class MainActivityPaged extends AppCompatActivity {
         mSpinnerDialogPaged.setCancellable(true);
         mSpinnerDialogPaged.setShowKeyboard(false);
 
-        mSpinnerDialogPaged.bindOnSpinerListener(new OnSpinerItemClick() {
+        getUsers(1);
+
+        findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(String item, int position) {
-                Toast.makeText(MainActivityPaged.this, item + "  " + position + "", Toast.LENGTH_SHORT).show();
-                selectedItems.setText(item + " Position: " + position);
+            public void onClick(View v) {
+                mSpinnerDialogPaged.showSpinerDialog();
             }
         });
 
+
         // set threshold
-        mSpinnerDialogPaged.setVisibleThreshold(5);
+        mSpinnerDialogPaged.setVisibleThreshold(3);
         // hide or show search field with true of false
         mSpinnerDialogPaged.setHideSearchField(false);
 
@@ -77,6 +59,7 @@ public class MainActivityPaged extends AppCompatActivity {
             @Override
             public void onLoadMore(int page) {
                 // call api request
+                getUsers(page);
             }
         });
 
@@ -87,12 +70,36 @@ public class MainActivityPaged extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void getUsers(int page) {
+        RetrofitConfig.createService(UserService.class).getUsers(page).enqueue(new Callback<Response>() {
             @Override
-            public void onClick(View v) {
-                mSpinnerDialogPaged.showSpinerDialog();
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                if (response.isSuccessful()) {
+                    for (Data item : response.body().getData()) {
+                        mItems.add(item.getEmail());
+                    }
+
+                    mSpinnerDialogPaged.addMoreItems(mItems);
+                    mSpinnerDialogPaged.bindOnSpinerListener(new OnSpinerItemClick() {
+                        @Override
+                        public void onClick(String item, int position) {
+                            Toast.makeText(MainActivityPaged.this, item + "  " + position + "", Toast.LENGTH_SHORT).show();
+                            mSelectedItems.setText(item + " Position: " + position);
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response> call, Throwable t) {
+
             }
         });
     }
+
 
 }

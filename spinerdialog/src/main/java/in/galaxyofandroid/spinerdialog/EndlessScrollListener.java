@@ -22,7 +22,7 @@ public class EndlessScrollListener implements AbsListView.OnScrollListener {
             if (totalItemCount > previousTotal) {
                 loading = false;
                 previousTotal = totalItemCount;
-//                currentPage++;
+                currentPage++;
             }
         }
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
