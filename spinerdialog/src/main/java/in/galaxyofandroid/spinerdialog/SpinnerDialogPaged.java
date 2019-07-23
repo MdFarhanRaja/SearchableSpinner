@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class SpinnerDialogPaged {
     Activity context;
     String dTitle, closeTitle = "Close";
     OnSpinerItemClick onSpinerItemClick;
-    OnLoadMore onLoadMore;
+    private OnLoadMoreListener mOnLoadMoreListener;
     AlertDialog alertDialog;
     int pos;
     int style;
@@ -42,6 +43,7 @@ public class SpinnerDialogPaged {
     private int visibleThreshold = 5;
     private boolean isHideSearchField;
     private OnAfterTextChangedListener onAfterTextChangedListener;
+    private ProgressBar mProgressBar;
 
     private void initColor(Context context) {
         this.titleColor = context.getResources().getColor(R.color.colorBlack);
@@ -88,8 +90,8 @@ public class SpinnerDialogPaged {
         this.onSpinerItemClick = onSpinerItemClick1;
     }
 
-    public void bindOnLoadMoreListener(OnLoadMore onLoadMore) {
-        this.onLoadMore = onLoadMore;
+    public void bindOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.mOnLoadMoreListener = onLoadMoreListener;
     }
 
     public void bindOnAfterTextChanged(OnAfterTextChangedListener onAfterTextChangedListener) {
@@ -99,9 +101,10 @@ public class SpinnerDialogPaged {
     public void showSpinerDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(context);
         View v = context.getLayoutInflater().inflate(R.layout.dialog_layout, null);
-        TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
-        TextView title = (TextView) v.findViewById(R.id.spinerTitle);
-        ImageView searchIcon = (ImageView) v.findViewById(R.id.searchIcon);
+        TextView rippleViewClose = v.findViewById(R.id.close);
+        TextView title = v.findViewById(R.id.spinerTitle);
+        ImageView searchIcon = v.findViewById(R.id.searchIcon);
+        mProgressBar = v.findViewById(R.id.progress_bar);
         rippleViewClose.setText(closeTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
@@ -136,7 +139,12 @@ public class SpinnerDialogPaged {
             }
         };
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new EndlessScrollListener(onLoadMore, visibleThreshold));
+        listView.setOnScrollListener(new EndlessScrollListener(visibleThreshold) {
+            @Override
+            void onLoadMore(int currentPage) {
+                mOnLoadMoreListener.onLoadMore(currentPage);
+            }
+        });
         adb.setView(v);
         alertDialog = adb.create();
         alertDialog.getWindow().getAttributes().windowAnimations = style;//R.style.DialogAnimations_SmileWindow;
@@ -223,6 +231,18 @@ public class SpinnerDialogPaged {
                                }
                            }
                 , 200);
+    }
+
+    public void hideProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public void showProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean isCancellable() {

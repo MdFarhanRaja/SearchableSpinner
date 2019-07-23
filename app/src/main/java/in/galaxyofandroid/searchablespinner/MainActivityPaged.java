@@ -9,7 +9,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import in.galaxyofandroid.spinerdialog.OnAfterTextChangedListener;
-import in.galaxyofandroid.spinerdialog.OnLoadMore;
+import in.galaxyofandroid.spinerdialog.OnLoadMoreListener;
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialogPaged;
 import retrofit2.Call;
@@ -37,10 +37,12 @@ public class MainActivityPaged extends AppCompatActivity {
         mSpinnerDialogPaged.setItemDividerColor(getResources().getColor(R.color.colorAccent));
         mSpinnerDialogPaged.setCloseColor(getResources().getColor(R.color.colorAccent));
 
-        mSpinnerDialogPaged.setCancellable(true);
-        mSpinnerDialogPaged.setShowKeyboard(false);
+        mSpinnerDialogPaged.setCancellable(true); // for cancellable
+        mSpinnerDialogPaged.setShowKeyboard(false); // for open keyboard by default
+        mSpinnerDialogPaged.setVisibleThreshold(3); // set visible threshold
+        mSpinnerDialogPaged.setHideSearchField(true); // hide or show search field with true of false
 
-        getUsers(1);
+        getUsers(1); // make your request for api
 
         findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,16 +52,10 @@ public class MainActivityPaged extends AppCompatActivity {
         });
 
 
-        // set threshold
-        mSpinnerDialogPaged.setVisibleThreshold(3);
-        // hide or show search field with true of false
-        mSpinnerDialogPaged.setHideSearchField(false);
-
-        mSpinnerDialogPaged.bindOnLoadMoreListener(new OnLoadMore() {
+        mSpinnerDialogPaged.bindOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page) {
-                // call api request
-                getUsers(page);
+                getUsers(page); // make your request for api with the new page returned
             }
         });
 
@@ -73,10 +69,14 @@ public class MainActivityPaged extends AppCompatActivity {
     }
 
     private void getUsers(int page) {
+        mSpinnerDialogPaged.showProgressBar(); // show the progress bar before your request
+
         RetrofitConfig.createService(UserService.class).getUsers(page).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 if (response.isSuccessful()) {
+                    mSpinnerDialogPaged.hideProgressBar(); // hide the progress bar after your request
+
                     for (Data item : response.body().getData()) {
                         mItems.add(item.getEmail());
                     }

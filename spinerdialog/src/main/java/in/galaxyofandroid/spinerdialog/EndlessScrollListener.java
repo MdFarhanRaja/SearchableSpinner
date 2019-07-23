@@ -2,16 +2,14 @@ package in.galaxyofandroid.spinerdialog;
 
 import android.widget.AbsListView;
 
-public class EndlessScrollListener implements AbsListView.OnScrollListener {
+public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
 
     private int visibleThreshold;
     private int currentPage = 0;
     private int previousTotal = 0;
     private boolean loading = true;
-    private OnLoadMore onLoadMore;
 
-    public EndlessScrollListener(OnLoadMore onLoadMore, int visibleThreshold) {
-        this.onLoadMore = onLoadMore;
+    public EndlessScrollListener(int visibleThreshold) {
         this.visibleThreshold = visibleThreshold;
     }
 
@@ -28,7 +26,7 @@ public class EndlessScrollListener implements AbsListView.OnScrollListener {
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
             // I load the next page of gigs using a background task,
             // but you can call any function here.
-            onLoadMore.onLoadMore(currentPage + 1);
+            onLoadMore(currentPage + 1);
             loading = true;
         }
     }
@@ -36,4 +34,6 @@ public class EndlessScrollListener implements AbsListView.OnScrollListener {
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
     }
+
+    abstract void onLoadMore(int currentPage);
 }
