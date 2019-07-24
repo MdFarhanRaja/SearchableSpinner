@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,15 +35,16 @@ public class SpinnerDialog {
     boolean cancellable = false;
     boolean showKeyboard = false;
     boolean useContainsFilter = false;
-    int titleColor,searchIconColor,searchTextColor,itemColor,itemDividerColor,closeColor;
+    int titleColor, searchIconColor, searchTextColor, itemColor, itemDividerColor, closeColor;
+    private ProgressBar mProgressBar;
 
-    private void initColor(Context context){
-        this.titleColor=context.getResources().getColor(R.color.colorBlack);
-        this.searchIconColor=context.getResources().getColor(R.color.colorBlack);
-        this.searchTextColor=context.getResources().getColor(R.color.colorBlack);
-        this.itemColor=context.getResources().getColor(R.color.colorBlack);
-        this.closeColor=context.getResources().getColor(R.color.colorBlack);
-        this.itemDividerColor=context.getResources().getColor(R.color.colorLightGray);
+    private void initColor(Context context) {
+        this.titleColor = context.getResources().getColor(R.color.colorBlack);
+        this.searchIconColor = context.getResources().getColor(R.color.colorBlack);
+        this.searchTextColor = context.getResources().getColor(R.color.colorBlack);
+        this.itemColor = context.getResources().getColor(R.color.colorBlack);
+        this.closeColor = context.getResources().getColor(R.color.colorBlack);
+        this.itemDividerColor = context.getResources().getColor(R.color.colorLightGray);
     }
 
     public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
@@ -86,7 +88,10 @@ public class SpinnerDialog {
         View v = context.getLayoutInflater().inflate(R.layout.dialog_layout, null);
         TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
         TextView title = (TextView) v.findViewById(R.id.spinerTitle);
-        ImageView searchIcon=(ImageView) v.findViewById(R.id.searchIcon);
+        ImageView searchIcon = (ImageView) v.findViewById(R.id.searchIcon);
+        mProgressBar = v.findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.GONE);
+
         rippleViewClose.setText(closeTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
@@ -112,7 +117,7 @@ public class SpinnerDialog {
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView text1=view.findViewById(R.id.text1);
+                TextView text1 = view.findViewById(R.id.text1);
                 text1.setTextColor(itemColor);
                 return view;
             }
@@ -193,6 +198,18 @@ public class SpinnerDialog {
                                }
                            }
                 , 200);
+    }
+
+    public void hideProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public void showProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean isCancellable() {
