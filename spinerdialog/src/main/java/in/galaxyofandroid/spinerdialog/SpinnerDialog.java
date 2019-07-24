@@ -19,12 +19,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Md Farhan Raja on 2/23/2017.
  */
 
 public class SpinnerDialog {
+
+    private ArrayAdapterWithContainsFilter<String> adapter;
     ArrayList<String> items;
     Activity context;
     String dTitle, closeTitle = "Close";
@@ -112,7 +115,7 @@ public class SpinnerDialog {
 
 
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_view, items);
-        final ArrayAdapterWithContainsFilter<String> adapter = new ArrayAdapterWithContainsFilter<String>(context, R.layout.items_view, items) {
+        adapter = new ArrayAdapterWithContainsFilter<String>(context, R.layout.items_view, items) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -209,6 +212,16 @@ public class SpinnerDialog {
     public void showProgressBar() {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void addMoreItems(ArrayList<String> items) {
+        HashSet<String> hashSet = new HashSet<>(items);
+        this.items.clear();
+        this.items.addAll(hashSet);
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
         }
     }
 
