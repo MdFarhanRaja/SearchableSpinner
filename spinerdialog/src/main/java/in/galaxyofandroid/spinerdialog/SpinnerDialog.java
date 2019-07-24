@@ -216,10 +216,7 @@ public class SpinnerDialog {
     }
 
     public void addMoreItems(ArrayList<String> items) {
-        HashSet<String> hashSet = new HashSet<>(items);
-        this.items.clear();
-        this.items.addAll(hashSet);
-
+        this.items = items
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
