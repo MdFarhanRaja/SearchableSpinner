@@ -216,7 +216,8 @@ public class SpinnerDialog {
     }
 
     public void addMoreItems(ArrayList<String> items) {
-        this.items = items;
+        this.items.addAll(items);
+
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
