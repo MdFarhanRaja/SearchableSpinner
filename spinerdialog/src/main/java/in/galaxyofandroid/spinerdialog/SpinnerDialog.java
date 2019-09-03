@@ -125,13 +125,9 @@ public class SpinnerDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView t = (TextView) view.findViewById(R.id.text1);
-                for (int j = 0; j < items.size(); j++) {
-                    if (t.getText().toString().equalsIgnoreCase(items.get(j).toString())) {
-                        pos = j;
-                    }
-                }
-                onSpinerItemClick.onClick(t.getText().toString(), pos);
+                String s = listView.getItemAtPosition(i).toString();
+                pos = i;                
+                onSpinerItemClick.onClick(s, pos);
                 closeSpinerDialog();
             }
         });
