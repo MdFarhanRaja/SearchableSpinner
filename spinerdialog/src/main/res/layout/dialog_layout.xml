@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:id="@+id/mainView"
     android:orientation="vertical">
 
     <LinearLayout
@@ -54,15 +55,22 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:divider="#d1d1d1"
-            android:dividerHeight="0.1dp"/>
+            android:dividerHeight="0.1dp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
 
         <TextView
-            android:clickable="true"
-            android:padding="5dp"
-            android:layout_gravity="right"
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:clickable="true"
+            android:padding="5dp"
             android:text="Close" />
 
     </LinearLayout>

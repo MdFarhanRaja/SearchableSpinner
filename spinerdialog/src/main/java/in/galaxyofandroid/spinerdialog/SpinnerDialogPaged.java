@@ -22,16 +22,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * Created by Md Farhan Raja on 2/23/2017.
+ * Created by Ângelo Robson on 22/07/2019.
  */
 
-public class SpinnerDialog {
+public class SpinnerDialogPaged {
 
-    private ArrayAdapterWithContainsFilter<String> adapter;
     ArrayList<String> items;
     Activity context;
     String dTitle, closeTitle = "Close";
     OnSpinerItemClick onSpinerItemClick;
+    private OnLoadMoreListener mOnLoadMoreListener;
     AlertDialog alertDialog;
     int pos;
     int style;
@@ -39,6 +39,10 @@ public class SpinnerDialog {
     boolean showKeyboard = false;
     boolean useContainsFilter = false;
     int titleColor, searchIconColor, searchTextColor, itemColor, itemDividerColor, closeColor;
+    private ArrayAdapterWithContainsFilter<String> adapter;
+    private int visibleThreshold = 5;
+    private boolean isHideSearchField;
+    private OnAfterTextChangedListener onAfterTextChangedListener;
     private ProgressBar mProgressBar;
 
     private void initColor(Context context) {
@@ -50,14 +54,14 @@ public class SpinnerDialog {
         this.itemDividerColor = context.getResources().getColor(R.color.colorLightGray);
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
+    public SpinnerDialogPaged(Activity activity, ArrayList<String> items, String dialogTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
         initColor(context);
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, String closeTitle) {
+    public SpinnerDialogPaged(Activity activity, ArrayList<String> items, String dialogTitle, String closeTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
@@ -65,7 +69,7 @@ public class SpinnerDialog {
         initColor(context);
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
+    public SpinnerDialogPaged(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
@@ -73,7 +77,7 @@ public class SpinnerDialog {
         initColor(context);
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style, String closeTitle) {
+    public SpinnerDialogPaged(Activity activity, ArrayList<String> items, String dialogTitle, int style, String closeTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
@@ -86,15 +90,21 @@ public class SpinnerDialog {
         this.onSpinerItemClick = onSpinerItemClick1;
     }
 
+    public void bindOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.mOnLoadMoreListener = onLoadMoreListener;
+    }
+
+    public void bindOnAfterTextChanged(OnAfterTextChangedListener onAfterTextChangedListener) {
+        this.onAfterTextChangedListener = onAfterTextChangedListener;
+    }
+
     public void showSpinerDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(context);
         View v = context.getLayoutInflater().inflate(R.layout.dialog_layout, null);
-        TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
-        TextView title = (TextView) v.findViewById(R.id.spinerTitle);
-        ImageView searchIcon = (ImageView) v.findViewById(R.id.searchIcon);
+        TextView rippleViewClose = v.findViewById(R.id.close);
+        TextView title = v.findViewById(R.id.spinerTitle);
+        ImageView searchIcon = v.findViewById(R.id.searchIcon);
         mProgressBar = v.findViewById(R.id.progress_bar);
-        mProgressBar.setVisibility(View.GONE);
-
         rippleViewClose.setText(closeTitle);
         title.setText(dTitle);
         final ListView listView = (ListView) v.findViewById(R.id.list);
@@ -108,13 +118,16 @@ public class SpinnerDialog {
             showKeyboard(searchBox);
         }
 
+        if (isHideSearchField) {
+            searchIcon.setVisibility(View.INVISIBLE);
+            searchBox.setVisibility(View.INVISIBLE);
+        }
+
         title.setTextColor(titleColor);
         searchBox.setTextColor(searchTextColor);
         rippleViewClose.setTextColor(closeColor);
         searchIcon.setColorFilter(searchIconColor);
 
-
-//        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_view, items);
         adapter = new ArrayAdapterWithContainsFilter<String>(context, R.layout.items_view, items) {
             @NonNull
             @Override
@@ -126,6 +139,12 @@ public class SpinnerDialog {
             }
         };
         listView.setAdapter(adapter);
+        listView.setOnScrollListener(new EndlessScrollListener(visibleThreshold) {
+            @Override
+            void onLoadMore(int currentPage) {
+                mOnLoadMoreListener.onLoadMore(currentPage);
+            }
+        });
         adb.setView(v);
         alertDialog = adb.create();
         alertDialog.getWindow().getAttributes().windowAnimations = style;//R.style.DialogAnimations_SmileWindow;
@@ -157,11 +176,7 @@ public class SpinnerDialog {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (isUseContainsFilter()) {
-                    adapter.getContainsFilter(searchBox.getText().toString());
-                } else {
-                    adapter.getFilter().filter(searchBox.getText().toString());
-                }
+                onAfterTextChangedListener.onAfterTextChanged(searchBox.getText().toString());
             }
         });
 
@@ -174,6 +189,21 @@ public class SpinnerDialog {
         alertDialog.setCancelable(isCancellable());
         alertDialog.setCanceledOnTouchOutside(isCancellable());
         alertDialog.show();
+    }
+
+    public void addMoreItems(ArrayList<String> items) {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.addAll(items);
+        this.items.clear();
+        this.items.addAll(hashSet);
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setVisibleThreshold(int visibleThreshold) {
+        this.visibleThreshold = visibleThreshold;
     }
 
     public void closeSpinerDialog() {
@@ -215,16 +245,12 @@ public class SpinnerDialog {
         }
     }
 
-    public void addMoreItems(ArrayList<String> items) {
-        this.items.addAll(items);
-
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
     private boolean isCancellable() {
         return cancellable;
+    }
+
+    public void setHideSearchField(boolean ishideSearchField) {
+        this.isHideSearchField = ishideSearchField;
     }
 
     public void setCancellable(boolean cancellable) {
@@ -271,4 +297,5 @@ public class SpinnerDialog {
     public void setItemDividerColor(int itemDividerColor) {
         this.itemDividerColor = itemDividerColor;
     }
+
 }

@@ -28,4 +28,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     //implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.1'
     implementation project(':spinerdialog')
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+
 }
