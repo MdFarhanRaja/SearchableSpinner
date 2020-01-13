@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="#121212"
     android:id="@+id/mainView"
     android:orientation="vertical">
 
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Select or Search Items"
             android:textSize="17sp"
+            android:textColor="#ffff"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -31,14 +32,14 @@
                 android:id="@+id/searchIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_search_black_36dp" />
+                android:src="@drawable/searchicon_white" />
 
             <EditText
                 android:id="@+id/searchBox"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
-                android:background="#ffffff"
+                android:background="#101010"
                 android:inputType="text" />
 
         </LinearLayout>
@@ -47,13 +48,14 @@
             android:id="@+id/viewLine"
             android:layout_width="wrap_content"
             android:layout_height="0.1dp"
-            android:background="#d1d1d1" />
+            android:background="#ffff" />
 
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:divider="#d1d1d1"
+            android:divider="#ffff"
+            android:textColor="#ffff"
             android:dividerHeight="0.1dp"/>
 
         <TextView
@@ -61,6 +63,7 @@
             android:padding="5dp"
             android:layout_gravity="right"
             android:id="@+id/close"
+            android:textColor="#ffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Close" />
