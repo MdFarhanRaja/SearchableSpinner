@@ -17,7 +17,7 @@
             android:id="@+id/spinerTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select or Search Items"
+            android:text="Search Currency"
             android:textSize="17sp"
             android:textColor="#ffff"
             android:textStyle="bold" />
