@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Search Currency"
             android:textSize="17sp"
-            android:textColor="?attr/textcolor"
+            android:textColor="?attr/editTextColor"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -47,14 +47,14 @@
             android:id="@+id/viewLine"
             android:layout_width="wrap_content"
             android:layout_height="0.1dp"
-            android:background="?attr/textcolor" />
+            android:background="?attr/editTextColor" />
 
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:divider="?attr/textcolor"
-            android:textColor="?attr/textcolor"
+            android:divider="?attr/editTextColor"
+            android:textColor="?attr/editTextColor"
             android:dividerHeight="0.1dp"/>
 
         <TextView
@@ -62,7 +62,7 @@
             android:padding="5dp"
             android:layout_gravity="right"
             android:id="@+id/close"
-            android:textColor="?attr/textcolor"
+            android:textColor="?attr/editTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Close" />
