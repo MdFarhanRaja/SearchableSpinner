@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
+                android:background="#ffff"
                 android:inputType="text" />
 
         </LinearLayout>
