@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/text1"
-    android:padding="13dp"
-    android:textSize="16sp"
+    android:padding="15dp"
+    android:textSize="18sp"
     android:gravity="center|left">
 
 </TextView>
